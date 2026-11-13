@@ -10,8 +10,13 @@
         "doctrine/doctrine-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.7",
+        "league/commonmark": "^2.10",
         "phpdocumentor/reflection-docblock": "^6.0",
         "phpstan/phpdoc-parser": "^2.3",
+        "symfony/ai-agent": "^1.0@beta",
+        "symfony/ai-anthropic-platform": "^1.0@beta",
+        "symfony/ai-bundle": "^1.0@beta",
+        "symfony/ai-platform": "^1.0@beta",
         "symfony/asset": "8.1.*",
         "symfony/asset-mapper": "8.1.*",
         "symfony/console": "8.1.*",
@@ -37,12 +42,21 @@
         "symfony/string": "8.1.*",
         "symfony/translation": "8.1.*",
         "symfony/twig-bundle": "8.1.*",
+        "symfony/ux-leaflet-map": "^3.4",
+        "symfony/ux-live-component": "^3.6",
+        "symfony/ux-map": "^3.4",
         "symfony/ux-turbo": "^3.4",
+        "symfony/ux-twig-component": "^3.4",
         "symfony/validator": "8.1.*",
         "symfony/web-link": "8.1.*",
         "symfony/yaml": "8.1.*",
+        "symfonycasts/tailwind-bundle": "^1.0",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/markdown-extra": "^3.29",
+        "twig/twig": "^2.12|^3.0",
+        "webmamba/ag-ui": "*@dev",
+        "webmamba/ag-ui-bundle": "*@dev",
+        "webmamba/ag-ui-symfony-ai": "*@dev"
     },
     "config": {
         "allow-plugins": {
@@ -105,5 +119,18 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/stopwatch": "8.1.*",
         "symfony/web-profiler-bundle": "8.1.*"
-    }
+    },
+    "repositories": [{
+        "name": "ag-ui-bundle",
+        "type": "path",
+        "url": "../ag-ui-php/packages/bundle"
+    },{
+        "name": "ag-ui-symfony-ai",
+        "type": "path",
+        "url": "../ag-ui-php/packages/symfony-ai"
+    },{
+        "name": "ag-ui",
+        "type": "path",
+        "url": "../ag-ui-php/packages/core"
+    }]
 }

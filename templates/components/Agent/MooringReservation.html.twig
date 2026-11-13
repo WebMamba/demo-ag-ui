@@ -1,0 +1,23 @@
+{# Rendered on the server, shown through an ACTIVITY_SNAPSHOT. ag-ui-activities marks it
+   with its interrupt's id, so the buttons answer it with ag-ui#resume. #}
+<div class="agent-component my-3 rounded-2xl border border-amber-300 bg-amber-50 dark:bg-amber-950/40 dark:border-amber-700 p-4" data-interrupt>
+    <div class="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">{{ 'mooring.title'|trans }}</div>
+    <div class="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">⚓ {{ marina }}</div>
+    <div class="text-sm text-slate-600 dark:text-slate-300">
+        {{ island }} · {{ arrival }} · {{ 'mooring.nights'|trans({'%count%': nights}) }} · {{ boatLengthMeters|number_format(1) }} m
+    </div>
+    <div class="mt-3 flex gap-2">
+        <button type="button"
+                data-action="agent-chat#chose ag-ui#resume"
+                data-ag-ui-approved-param="true"
+                class="rounded-xl bg-amber-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-400 disabled:opacity-50">
+            {{ 'mooring.confirm'|trans }}
+        </button>
+        <button type="button"
+                data-action="agent-chat#chose ag-ui#resume"
+                data-ag-ui-approved-param="false"
+                class="rounded-xl border border-slate-300 dark:border-slate-600 px-3 py-1.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-800 disabled:opacity-50">
+            {{ 'mooring.decline'|trans }}
+        </button>
+    </div>
+</div>

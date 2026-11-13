@@ -1,0 +1,6 @@
+# The agent's answers are markdown, rendered with |markdown_to_html. They come from a
+# model, so raw HTML in them is shown as text and risky links are dropped.
+twig_extra:
+    commonmark:
+        html_input: escape
+        allow_unsafe_links: false

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Passage Agent — basic chat{% endblock %}
+
+{% block body %}
+<div class="min-h-full flex flex-col max-w-3xl w-full mx-auto px-4">
+    <header class="flex items-center justify-between py-4 border-b border-slate-200 dark:border-slate-700">
+        <h1 class="font-semibold">⛵ Passage Agent <span class="text-slate-400 font-normal">· basic chat</span></h1>
+        <form method="post" action="{{ path('chat_reset') }}" data-turbo="false">
+            <button class="text-xs text-slate-400 hover:text-slate-600">New conversation</button>
+        </form>
+    </header>
+
+    <main data-controller="chat" class="flex-1 flex flex-col">
+        <div id="messages" data-chat-target="messages" class="flex-1 py-6 space-y-6">
+            {% for m in history %}
+                {{ include('chat/_message.html.twig', {role: m.role, content: m.content}) }}
+            {% endfor %}
+        </div>
+
+        <div data-chat-target="thinking" class="hidden pb-4 text-sm text-slate-400 italic">Passage Agent is thinking…</div>
+
+        <form
+            method="post"
+            action="{{ path('chat_send') }}"
+            data-action="turbo:submit-start->chat#sending turbo:submit-end->chat#sent"
+            class="sticky bottom-0 pb-4 pt-2 bg-slate-50 dark:bg-slate-900"
+        >
+            <div class="flex items-end gap-2 rounded-2xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-sm p-2">
+                <input
+                    name="message"
+                    data-chat-target="input"
+                    placeholder="Ask your navigator…"
+                    autocomplete="off"
+                    required
+                    class="flex-1 bg-transparent px-2 py-1.5 text-sm focus:outline-none"
+                >
+                <button class="shrink-0 rounded-xl bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-50">Send</button>
+            </div>
+        </form>
+    </main>
+</div>
+{% endblock %}

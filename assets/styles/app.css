@@ -1,3 +1,126 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: Tailwind v4 needs the variant declared explicitly.
+   The class is put on <html> server-side, and toggled in place by the theme effect. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source "../../templates";
+@source "../../src";
+
+html, body {
+    height: 100%;
+}
+
 body {
-    background-color: skyblue;
+    @apply bg-slate-200 text-slate-900 antialiased;
+    @apply dark:bg-black dark:text-slate-100;
+}
+
+/* — The chart plotter (a marine multifunction display) — */
+.mfd-panel {
+    @apply rounded-xl border border-slate-300 bg-white shadow-sm;
+    @apply dark:border-slate-800 dark:bg-slate-950;
+}
+
+.mfd-label {
+    @apply mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400;
+}
+
+/* Instrument digits: DIN, like the displays on deck, with figures that don't dance. */
+.mfd-digits {
+    font-family: "DIN Alternate", "DIN 2014", Bahnschrift, "Roboto Condensed", ui-sans-serif, system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    @apply font-bold;
+}
+
+/* A night chart: the same tiles, inverted, so the screen doesn't light up the cockpit. */
+.dark #passage-chart .leaflet-tile-pane {
+    filter: invert(100%) hue-rotate(180deg) brightness(0.85) contrast(0.9);
+}
+
+.dark #passage-chart.leaflet-container {
+    @apply bg-slate-950;
+}
+
+/* Prose-like typography for the assistant's text, rendered from markdown */
+.assistant-text {
+    @apply text-slate-800 leading-relaxed dark:text-slate-200;
+}
+
+.assistant-text > * + * {
+    @apply mt-3;
+}
+
+.assistant-text :is(h1, h2, h3, h4) {
+    @apply font-semibold text-slate-900 dark:text-slate-100;
+}
+
+.assistant-text h1 { @apply text-lg; }
+.assistant-text h2 { @apply text-base; }
+.assistant-text :is(h3, h4) { @apply text-sm; }
+
+.assistant-text ul { @apply list-disc pl-5; }
+.assistant-text ol { @apply list-decimal pl-5; }
+.assistant-text li + li { @apply mt-1; }
+.assistant-text li > :is(ul, ol) { @apply mt-1; }
+
+.assistant-text strong { @apply font-semibold text-slate-900 dark:text-slate-100; }
+
+.assistant-text a {
+    @apply text-indigo-600 underline underline-offset-2 dark:text-indigo-400;
+}
+
+.assistant-text code {
+    @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.85em] dark:bg-slate-800;
+}
+
+.assistant-text pre {
+    @apply overflow-x-auto rounded-lg bg-slate-100 p-3 text-xs dark:bg-slate-800;
+}
+
+.assistant-text pre code {
+    @apply bg-transparent p-0;
+}
+
+.assistant-text blockquote {
+    @apply border-l-2 border-slate-300 pl-3 text-slate-600 dark:border-slate-600 dark:text-slate-400;
+}
+
+.assistant-text table {
+    @apply w-full border-collapse text-xs;
+}
+
+.assistant-text :is(th, td) {
+    @apply border border-slate-200 px-2 py-1 text-left dark:border-slate-700;
+}
+
+.assistant-text hr {
+    @apply border-slate-200 dark:border-slate-700;
+}
+
+/* Blinking cursor while streaming: after the last word, not on a line of its own */
+.streaming-cursor:empty::after,
+.streaming-cursor > :last-child::after {
+    content: "▍";
+    @apply inline-block ml-0.5 text-indigo-500;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* Night watch: red light only, so the crew keeps its night vision.
+   A red layer multiplied over the (dark) page keeps only the red channel of every
+   pixel — maps included — without touching the layout underneath. */
+html.night::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: #ff2a00;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 2147483647;
 }

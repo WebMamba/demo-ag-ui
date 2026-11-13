@@ -1,0 +1,23 @@
+<div class="agent-component agent-component-links rounded-2xl border border-slate-200 shadow-sm my-3 overflow-hidden bg-white">
+    {% if title %}
+        <div class="px-4 py-3 border-b border-slate-100 bg-slate-50">
+            <div class="text-sm font-semibold text-slate-900">{{ title }}</div>
+        </div>
+    {% endif %}
+    <ul class="divide-y divide-slate-100">
+        {% for item in items %}
+            <li>
+                <a href="{{ this.safeUrl(item.url) }}" target="_blank" rel="noopener noreferrer"
+                   class="flex items-start gap-3 px-4 py-3 hover:bg-slate-50 transition-colors group">
+                    <span class="mt-1 text-slate-400 group-hover:text-slate-600 shrink-0">→</span>
+                    <span class="flex-1 min-w-0">
+                        <span class="block text-sm font-medium text-slate-900 group-hover:text-indigo-700 truncate">{{ item.title }}</span>
+                        {% if item.description is defined and item.description %}
+                            <span class="block text-xs text-slate-500 mt-0.5">{{ item.description }}</span>
+                        {% endif %}
+                    </span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

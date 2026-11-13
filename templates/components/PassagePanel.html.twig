@@ -1,0 +1,155 @@
+{# The chart plotter. Its only input is the AG-UI shared state (the passage plan);
+   the instruments are read from the boat on every render. #}
+{% set boat = this.boat %}
+{% set next = this.next %}
+{% set legs = this.legs %}
+{# Its own scrolling column. Sized by its container, not the window: how wide it gets
+   depends on the console beside it. #}
+{# data-follows-locale: when the agent changes the language, locale_controller sets
+   the locale prop, and the component re-renders in it. #}
+<section {{ attributes.defaults({class: '@container flex flex-col gap-3 min-h-0 overflow-y-auto', 'data-follows-locale': ''}) }}>
+    <div class="shrink-0 grid grid-cols-1 @3xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-3"
+         data-controller="instruments">
+
+        {# — Course to steer: the one number the helmsman needs, big. — #}
+        <div class="mfd-panel flex items-center gap-5 p-4">
+            <svg viewBox="0 0 200 200" class="w-32 h-32 @5xl:w-36 @5xl:h-36 shrink-0" aria-hidden="true">
+                <circle cx="100" cy="100" r="96" class="fill-slate-100 dark:fill-slate-950 stroke-slate-300 dark:stroke-slate-700" stroke-width="2"/>
+                {# The compass card turns with the boat: the heading is always at the top. #}
+                <g transform="rotate({{ -boat.headingDegrees }} 100 100)" class="compass-card">
+                    {% for d in range(0, 355, 5) %}
+                        <line x1="100" y1="8" x2="100" y2="{{ d % 30 == 0 ? 22 : (d % 10 == 0 ? 18 : 14) }}"
+                              transform="rotate({{ d }} 100 100)"
+                              class="stroke-slate-500 dark:stroke-slate-400" stroke-width="{{ d % 30 == 0 ? 2 : 1 }}"/>
+                    {% endfor %}
+                    {% for d, label in {0: 'N', 30: '3', 60: '6', 90: 'E', 120: '12', 150: '15', 180: 'S', 210: '21', 240: '24', 270: 'W', 300: '30', 330: '33'} %}
+                        <text x="100" y="40" transform="rotate({{ d }} 100 100)" text-anchor="middle"
+                              class="{{ d % 90 == 0 ? 'fill-slate-900 dark:fill-slate-100 font-bold' : 'fill-slate-500 dark:fill-slate-400' }}"
+                              font-size="{{ d % 90 == 0 ? 17 : 12 }}">{{ label }}</text>
+                    {% endfor %}
+                    {% if next %}
+                        {# The bearing bug: where the next waypoint is. #}
+                        <polygon points="91,1 109,1 100,16" transform="rotate({{ next.bearingDegrees }} 100 100)" class="fill-orange-500"/>
+                    {% endif %}
+                </g>
+                {# The lubber line: the bow. #}
+                <polygon points="100,26 94,46 106,46" class="fill-sky-500"/>
+                <circle cx="100" cy="100" r="4" class="fill-slate-400 dark:fill-slate-600"/>
+            </svg>
+
+            <div class="min-w-0">
+                <div class="mfd-label">{{ 'nav.course_to_steer'|trans }}</div>
+                {% if next %}
+                    <div class="mfd-digits text-8xl @6xl:text-9xl leading-none text-slate-900 dark:text-white">{{ '%03d'|format(next.bearingDegrees) }}°</div>
+                    <div class="mt-2 text-sm font-medium text-orange-600 dark:text-orange-400 truncate">→ {{ next.name }}</div>
+                    <div class="mfd-digits text-base text-slate-600 dark:text-slate-300">
+                        {{ next.distanceNm|number_format }} nm · {{ 'passage.days'|trans({'%days%': next.days}) }}
+                    </div>
+                    {% set correction = next.correctionFrom(boat.headingDegrees) %}
+                    <div class="mt-1 text-xs font-semibold uppercase tracking-wider {{ correction|abs < 3 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
+                        {% if correction|abs < 3 %}✓ {{ 'nav.on_course'|trans }}
+                        {% elseif correction < 0 %}◀ {{ 'nav.to_port'|trans({'%deg%': -correction}) }}
+                        {% else %}{{ 'nav.to_starboard'|trans({'%deg%': correction}) }} ▶{% endif %}
+                    </div>
+                {% else %}
+                    <div class="mfd-digits text-8xl @6xl:text-9xl leading-none text-slate-300 dark:text-slate-700">---°</div>
+                    <div class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ 'nav.no_route'|trans }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# — The boat's instruments — #}
+        <div class="grid grid-cols-2 gap-3">
+            <div class="mfd-panel p-3">
+                <div class="mfd-label">COG · {{ 'nav.heading'|trans }}</div>
+                <div class="mfd-digits text-4xl text-slate-900 dark:text-white">{{ '%03d'|format(boat.headingDegrees) }}°</div>
+            </div>
+            <div class="mfd-panel p-3">
+                <div class="mfd-label">SOG · {{ 'nav.speed'|trans }}</div>
+                <div class="mfd-digits text-4xl text-slate-900 dark:text-white">
+                    <span data-live-ignore data-instruments-target="fluctuating" data-value="{{ boat.speedKnots }}" data-spread="0.3">{{ boat.speedKnots|number_format(1) }}</span><span class="text-lg text-slate-500 dark:text-slate-400"> kn</span>
+                </div>
+            </div>
+            <div class="mfd-panel p-3">
+                <div class="mfd-label">TWS · {{ 'nav.wind'|trans }}</div>
+                <div class="mfd-digits text-4xl text-slate-900 dark:text-white">
+                    <span data-live-ignore data-instruments-target="fluctuating" data-value="{{ boat.windSpeedKnots }}" data-spread="1.5">{{ boat.windSpeedKnots|number_format(1) }}</span><span class="text-lg text-slate-500 dark:text-slate-400"> kn</span>
+                </div>
+                {% set twa = this.trueWindAngle %}
+                <div class="mfd-digits text-xs text-slate-500 dark:text-slate-400">
+                    TWD {{ '%03d'|format(boat.windDirectionDegrees) }}° · TWA {{ twa|abs }}° {{ (twa < 0 ? 'nav.port_short' : 'nav.starboard_short')|trans }}
+                </div>
+            </div>
+            <div class="mfd-panel p-3">
+                <div class="mfd-label">GPS · {{ 'nav.position'|trans }}</div>
+                <div class="mfd-digits text-xl leading-tight text-slate-900 dark:text-white">
+                    {{ this.formatCoordinate(boat.position.latitude, 'N', 'S') }}<br>
+                    {{ this.formatCoordinate(boat.position.longitude, 'E', 'W') }}
+                </div>
+                <div class="mt-1 flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span> Fix 3D
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# — The chart — #}
+    <div class="mfd-panel shrink-0 h-[65vh] min-h-[420px] flex overflow-hidden">
+        <div class="relative flex-1 min-w-0"
+             data-controller="chart"
+             data-action="ux:map:polyline:before-create->chart#stylePolyline">
+            {{ ux_map(this.chart, {id: 'passage-chart', class: 'absolute inset-0', style: 'height: 100%; width: 100%;'}) }}
+        </div>
+
+        {# The passage plan, editable by the skipper. #}
+        <aside class="w-52 @4xl:w-64 shrink-0 overflow-y-auto border-l border-slate-200 dark:border-slate-800 p-3">
+            <div class="flex items-center justify-between">
+                <h2 class="mfd-label !mb-0">{{ 'passage.title'|trans }}</h2>
+                {% if this.waypoints is not empty %}
+                    <button type="button" data-action="live#action" data-live-action-param="clear"
+                            class="text-[11px] uppercase tracking-wider text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">{{ 'passage.clear'|trans }}</button>
+                {% endif %}
+            </div>
+
+            <ol class="mt-2">
+                {% for waypoint in this.waypoints %}
+                    {% set isNext = next and next.name == waypoint.name %}
+                    <li class="group relative pl-7 {{ not loop.last ? 'pb-1' }}">
+                        {% if not loop.last %}<span class="absolute left-[9px] top-5 bottom-0 w-px bg-orange-300 dark:bg-orange-800"></span>{% endif %}
+                        <span class="absolute left-0 top-0.5 w-[19px] h-[19px] rounded-full bg-orange-600 text-white text-[10px] font-bold flex items-center justify-center {{ isNext ? 'ring-2 ring-offset-1 ring-sky-500 dark:ring-offset-slate-950' }}">{{ loop.index }}</span>
+
+                        <div class="flex items-start gap-2 rounded-md px-1 hover:bg-slate-100 dark:hover:bg-slate-800/60">
+                            <span class="flex-1 text-sm text-slate-800 dark:text-slate-200">
+                                {{ waypoint.name }}
+                                {% if isNext %}<span class="ml-1 text-[10px] uppercase tracking-wider text-sky-600 dark:text-sky-400">{{ 'nav.next'|trans }}</span>{% endif %}
+                                {% if waypoint.note ?? '' %}<span class="block text-xs text-slate-500 dark:text-slate-400">{{ waypoint.note }}</span>{% endif %}
+                            </span>
+                            <button type="button"
+                                    data-action="live#action"
+                                    data-live-action-param="removeWaypoint"
+                                    data-live-index-param="{{ loop.index0 }}"
+                                    title="{{ 'passage.remove'|trans }}"
+                                    class="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition">✕</button>
+                        </div>
+
+                        {% if legs[loop.index0] is defined %}
+                            <div class="px-1 py-1 text-[11px] mfd-digits text-slate-500 dark:text-slate-400">
+                                {{ legs[loop.index0].nm|number_format }} nm · {{ 'passage.days'|trans({'%days%': legs[loop.index0].days}) }}
+                            </div>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <p class="text-xs text-slate-500 dark:text-slate-400">{{ 'passage.empty'|trans }}</p>
+                {% endfor %}
+            </ol>
+
+            {% if legs is not empty %}
+                <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-700 flex justify-between text-sm">
+                    <span class="text-slate-500 dark:text-slate-400">{{ 'passage.total'|trans }}</span>
+                    <span class="mfd-digits font-semibold text-slate-900 dark:text-slate-100">{{ this.totalNm|number_format }} nm · {{ 'passage.days'|trans({'%days%': this.totalDays}) }}</span>
+                </div>
+                <div class="mt-0.5 text-[10px] text-slate-400 text-right">{{ 'passage.speed'|trans({'%knots%': constant('App\\Ai\\Passage\\Legs::AVERAGE_SPEED_KNOTS')}) }}</div>
+            {% endif %}
+        </aside>
+    </div>
+</section>

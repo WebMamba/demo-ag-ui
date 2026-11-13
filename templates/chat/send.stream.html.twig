@@ -1,0 +1,6 @@
+<turbo-stream action="append" target="messages">
+    <template>
+        {{ include('chat/_message.html.twig', {role: 'user', content: question}) }}
+        {{ include('chat/_message.html.twig', {role: 'assistant', content: answer}) }}
+    </template>
+</turbo-stream>
