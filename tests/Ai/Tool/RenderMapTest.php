@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Ai\Tool;
 
 use App\Tests\Support\NavigatorToolbox;
-use AgUi\SymfonyAi\Activity\Activity;
+use AgUi\Bridge\SymfonyAi\Activity\Activity;
 use Symfony\AI\Platform\Result\ToolCall;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

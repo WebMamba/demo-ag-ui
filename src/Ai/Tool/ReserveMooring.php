@@ -7,8 +7,8 @@ namespace App\Ai\Tool;
 use AgUi\Bundle\Component\ComponentActivityFactory;
 use AgUi\Run\ResumeEntry;
 use AgUi\Run\ResumeStatus;
-use AgUi\SymfonyAi\Interrupt\Interrupt;
-use AgUi\SymfonyAi\Interrupt\ResumableTool;
+use AgUi\Bridge\SymfonyAi\Interrupt\Interrupt;
+use AgUi\Bridge\SymfonyAi\Interrupt\ResumableTool;
 use Symfony\AI\Agent\Toolbox\Attribute\AsTool;
 
 #[AsTool(

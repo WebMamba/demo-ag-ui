@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Ui;
 
 use AgUi\Event\CustomEvent;
-use AgUi\SymfonyAi\Mapping\ToolResultMapping;
+use AgUi\Bridge\SymfonyAi\Mapping\ToolResultMapping;
 use Symfony\AI\Agent\Toolbox\ToolResult;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Twig\Environment;

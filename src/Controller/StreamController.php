@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use AgUi\Bundle\Http\AgUiResponse;
 use AgUi\Run\RunAgentInput;
-use AgUi\SymfonyAi\AgUi;
-use AgUi\SymfonyAi\Exception\InvalidStateException;
+use AgUi\Bridge\SymfonyAi\AgUi;
+use AgUi\Bridge\SymfonyAi\Exception\InvalidStateException;
 use App\Ai\Passage\PassagePlan;
 use Symfony\AI\Agent\AgentInterface;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;

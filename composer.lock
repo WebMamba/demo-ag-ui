@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b1282665cfd972d7a891a3dc89c690a",
+    "content-hash": "53b61d8aed44e1ae423383169f78ecd3",
     "packages": [
         {
             "name": "composer/semver",
@@ -9399,7 +9399,7 @@
             "dist": {
                 "type": "path",
                 "url": "../ag-ui-php/packages/bundle",
-                "reference": "c4c772c6fa2b58d541bdf31a9c8f03c24877d635"
+                "reference": "e4dddaa86ee337ba7050df58f44729df6308559d"
             },
             "require": {
                 "php": ">=8.4",
@@ -9410,9 +9410,10 @@
                 "symfony/http-kernel": "^8.0",
                 "symfony/routing": "^8.0",
                 "webmamba/ag-ui": "self.version",
-                "webmamba/ag-ui-symfony-ai": "self.version"
+                "webmamba/ag-ui-symfony-ai-bridge": "self.version"
             },
             "suggest": {
+                "symfony/stimulus-bundle": "To use the ag-ui and ag-ui-activities Stimulus controllers with AssetMapper.",
                 "symfony/ux-twig-component": "To expose Twig components to the model with #[AsAgentComponent]."
             },
             "type": "symfony-bundle",
@@ -9424,7 +9425,7 @@
             "license": [
                 "MIT"
             ],
-            "description": "Symfony bundle for AG-UI: declare an endpoint in config, and your Symfony AI agent speaks the AG-UI protocol. Twig components become generative UI.",
+            "description": "Symfony bundle for AG-UI: every Symfony AI agent speaks the AG-UI protocol, run by the route that picks it. Twig components become generative UI.",
             "keywords": [
                 "ag-ui",
                 "agent",
@@ -9437,12 +9438,12 @@
             }
         },
         {
-            "name": "webmamba/ag-ui-symfony-ai",
+            "name": "webmamba/ag-ui-symfony-ai-bridge",
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "../ag-ui-php/packages/symfony-ai",
-                "reference": "1472e54bbba7fae14e03dde6cac490a4039c408c"
+                "url": "../ag-ui-php/packages/symfony-ai-bridge",
+                "reference": "e6bc97384c2d37fdd11c5dbcfc2d6b5bb28df86b"
             },
             "require": {
                 "php": ">=8.4",
@@ -9459,13 +9460,13 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "AgUi\\SymfonyAi\\": "src/"
+                    "AgUi\\Bridge\\SymfonyAi\\": "src/"
                 }
             },
             "license": [
                 "MIT"
             ],
-            "description": "Exposes any Symfony AI agent as an AG-UI endpoint: text, reasoning, tool calls, frontend tools, interrupts, shared state and generative UI.",
+            "description": "Runs any Symfony AI agent over AG-UI: text, reasoning, tool calls, frontend tools, interrupts, shared state and generative UI.",
             "keywords": [
                 "ag-ui",
                 "agent",
@@ -11943,7 +11944,7 @@
         "symfony/ai-platform": 10,
         "webmamba/ag-ui": 20,
         "webmamba/ag-ui-bundle": 20,
-        "webmamba/ag-ui-symfony-ai": 20
+        "webmamba/ag-ui-symfony-ai-bridge": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

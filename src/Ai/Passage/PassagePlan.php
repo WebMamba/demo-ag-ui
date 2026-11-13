@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Ai\Passage;
 
-use AgUi\SymfonyAi\State\DescribesItself;
+use AgUi\Bridge\SymfonyAi\State\DescribesItself;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Contracts\Service\ResetInterface;
 
