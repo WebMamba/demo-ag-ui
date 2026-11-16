@@ -89,17 +89,18 @@ final class AgentStreamTest extends WebTestCase
 
         $outcome = self::first($events, 'RUN_FINISHED')['outcome'];
         self::assertSame('interrupt', $outcome['type']);
-        self::assertSame('int_c3', $outcome['interrupts'][0]['id']);
+        $interruptId = $outcome['interrupts'][0]['id'];
+        self::assertStringStartsWith('int_c3.', $interruptId, 'Signed by the server.');
 
         $question = self::first($events, 'ACTIVITY_SNAPSHOT');
         self::assertSame('act_c3', $question['messageId'], 'The client finds the question by its tool call.');
         self::assertStringContainsString('Marina Papeete', $question['content']['html']);
         self::assertStringContainsString('ag-ui#resume', $question['content']['html']);
-        self::assertSame('int_c3', $question['content']['interruptId'], 'ag-ui-activities marks the component with it.');
+        self::assertSame($interruptId, $question['content']['interruptId'], 'ag-ui-activities marks the component with it.');
 
         // The browser sends the conversation back, with the skipper's answer.
         ScriptedPlatform::$rounds = [[new TextDelta('Reserved.')]];
-        $events = $this->stream(messages: self::first($events, 'MESSAGES_SNAPSHOT')['messages'], resume: [['interruptId' => 'int_c3', 'status' => 'resolved', 'payload' => ['approved' => true]]]);
+        $events = $this->stream(messages: self::first($events, 'MESSAGES_SNAPSHOT')['messages'], resume: [['interruptId' => $interruptId, 'status' => 'resolved', 'payload' => ['approved' => true]]]);
 
         self::assertStringStartsWith('Mooring reserved at Marina Papeete', self::first($events, 'TOOL_CALL_RESULT')['content']);
         self::assertSame(['type' => 'success'], self::first($events, 'RUN_FINISHED')['outcome']);
