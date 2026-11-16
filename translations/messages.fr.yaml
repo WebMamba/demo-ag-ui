@@ -8,7 +8,7 @@ chat:
     disclaimer: 'Démo — ne naviguez jamais avec un chatbot. Vérifiez les cartes.'
     waiting: 'Répondez à la question ci-dessus pour continuer…'
     thinking: 'Réflexion…'
-    thought: 'Raisonnement'
+    thought: 'Réfléchi pendant {seconds} s'
 passage:
     title: 'Plan de navigation'
     empty: 'Demandez un plan de traversée au navigateur : les waypoints s’affichent ici, et vous pouvez les modifier.'

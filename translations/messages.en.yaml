@@ -8,7 +8,7 @@ chat:
     disclaimer: 'Demo — never navigate with a chatbot. Check the charts.'
     waiting: 'Answer the question above to continue…'
     thinking: 'Thinking…'
-    thought: 'Thought process'
+    thought: 'Thought for {seconds} s'
 passage:
     title: 'Passage plan'
     empty: 'Ask the navigator to plan a passage: the waypoints show up here, and you can edit them.'

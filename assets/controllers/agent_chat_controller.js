@@ -25,7 +25,7 @@ export default class extends Controller {
 
     connect() {
         this.texts = new Map();       // messageId → { el, markdown, frame }
-        this.reasonings = new Map();  // messageId → <details>
+        this.reasonings = new Map();  // messageId → { details, summary, body, text, startedAt, frame }
         this.toolLines = new Map();   // toolCallId → its line
         this.waiting = false;
         this.defaultPlaceholder = this.inputTarget.placeholder;
@@ -147,23 +147,58 @@ export default class extends Controller {
 
     // — Reasoning —
 
+    /**
+     * While the model thinks, its summary line shows the sentence it is writing, like a
+     * subtitle; once done, how long it thought. The whole reasoning unfolds on click.
+     */
     reasoningStart({ detail: { messageId } }) {
         const details = this.append('details', 'reasoning my-2 text-xs text-slate-500 dark:text-slate-400');
-        details.innerHTML = '<summary class="cursor-pointer select-none animate-pulse"></summary><div class="mt-1 pl-3 border-l-2 border-slate-200 dark:border-slate-600 whitespace-pre-wrap"></div>';
-        details.querySelector('summary').textContent = `💭 ${this.thinkingValue}`;
-        this.reasonings.set(messageId, details);
+        details.innerHTML = '<summary class="cursor-pointer select-none"></summary><div class="mt-1 pl-3 border-l-2 border-slate-200 dark:border-slate-600 whitespace-pre-wrap"></div>';
+        const summary = details.querySelector('summary');
+        summary.textContent = `💭 ${this.thinkingValue}`;
+        summary.classList.add('animate-pulse');
+        this.reasonings.set(messageId, { details, summary, body: details.querySelector('div'), text: '', startedAt: performance.now(), frame: null });
     }
 
     reasoningContent({ detail: { delta } }) {
         // A reasoning message sits inside the span opened last.
-        Array.from(this.reasonings.values()).at(-1)?.querySelector('div').append(delta);
+        const reasoning = Array.from(this.reasonings.values()).at(-1);
+        if (!reasoning) return;
+        reasoning.body.append(delta);
+        reasoning.text += delta;
+        // The excerpt is redrawn at most once a frame; it stops pulsing once there is text to read.
+        reasoning.frame ??= requestAnimationFrame(() => {
+            reasoning.frame = null;
+            const excerpt = this.constructor.excerpt(reasoning.text);
+            if (excerpt === '') return;
+            reasoning.summary.classList.remove('animate-pulse');
+            reasoning.summary.textContent = `💭 ${excerpt}`;
+            this.scrollToBottom();
+        });
     }
 
     reasoningEnd({ detail: { messageId } }) {
-        const summary = this.reasonings.get(messageId)?.querySelector('summary');
-        if (!summary) return;
-        summary.textContent = `💭 ${this.thoughtValue}`;
-        summary.classList.remove('animate-pulse');
+        const reasoning = this.reasonings.get(messageId);
+        if (!reasoning) return;
+        if (reasoning.frame) cancelAnimationFrame(reasoning.frame);
+        reasoning.frame = null;
+        const seconds = Math.max(1, Math.round((performance.now() - reasoning.startedAt) / 1000));
+        reasoning.summary.textContent = `💭 ${this.thoughtValue.replace('{seconds}', seconds)}`;
+        reasoning.summary.classList.remove('animate-pulse');
+    }
+
+    /**
+     * The sentence being written, for the summary line: the last one, with the one before
+     * while it is only a few words long, and its end only when it runs too long.
+     */
+    static excerpt(text, max = 120) {
+        const sentences = text.split(/(?<=[.!?:])\s+|\n+/).map((s) => s.trim()).filter(Boolean);
+        let excerpt = sentences.at(-1) ?? '';
+        if (excerpt.length < 30 && sentences.length > 1) excerpt = `${sentences.at(-2)} ${excerpt}`;
+        excerpt = excerpt.replace(/^[#*\-\s]+/, '').replaceAll('**', '');
+        if (excerpt.length <= max) return excerpt;
+        const tail = excerpt.slice(-max);
+        return `…${tail.slice(tail.indexOf(' ') + 1)}`;
     }
 
     // — Tool calls —
