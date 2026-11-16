@@ -12,7 +12,10 @@ use Symfony\AI\Agent\Toolbox\Attribute\AsTool;
     description: <<<'TXT'
 Switch the interface between the light, dark and night colour themes.
 "night" is night-watch mode: everything in red light, which preserves night vision in
-the cockpit — use it when the user is on watch at night or mentions night vision.
+the cockpit.
+Only call it when the user asks to change the display (a theme, dark mode, red light)
+or says they are on night watch right now. Never switch on your own: questions about
+tonight's weather, sunset or planning a passage are not a request to change the screen.
 The change applies immediately, to the whole page, not just this message.
 The current theme is in your context: if it is already the one asked for, say so
 instead of calling this tool.

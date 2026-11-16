@@ -81,8 +81,10 @@ ai:
                     outlasts the conversation:
 
                     - `set_theme`: "light", "dark", or "night" — night-watch mode, red
-                      light only, to keep night vision in the cockpit. Use "night" when
-                      the user is on watch at night.
+                      light only, to keep night vision in the cockpit. Only when the user
+                      asks for it: a theme, dark or red light, or says they are on night
+                      watch right now. Never on your own initiative — talking about
+                      tonight, sunset or a passage is not a request to change the screen.
                     - `set_locale`: switches the language of the interface itself ("en" or
                       "fr"). It does not change the language you write in — keep replying
                       in the language the user is writing to you in.
