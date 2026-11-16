@@ -34,17 +34,15 @@ No database, Node.js or Docker is needed.
 Installation
 ------------
 
-Until AG-UI for PHP is released on Packagist, the demo installs it from a clone next to
-this one (Composer path repositories in `composer.json`): both repositories must be in the
-same parent directory.
-
 ```bash
-git clone https://github.com/WebMamba/ag-ui-php.git
-git clone https://github.com/WebMamba/demo-ag-ui.git turbo-agent
-cd turbo-agent
+git clone https://github.com/WebMamba/demo-ag-ui.git
+cd demo-ag-ui
 
 composer install
 ```
+
+AG-UI for PHP comes from Packagist: `webmamba/ag-ui-bundle`, which brings
+`webmamba/ag-ui` and `webmamba/ag-ui-symfony-ai-bridge`.
 
 Then give it your Anthropic API key, in `.env.local` (never committed):
 

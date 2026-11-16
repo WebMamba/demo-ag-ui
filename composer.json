@@ -54,9 +54,9 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/markdown-extra": "^3.29",
         "twig/twig": "^2.12|^3.0",
-        "webmamba/ag-ui": "*@dev",
-        "webmamba/ag-ui-bundle": "*@dev",
-        "webmamba/ag-ui-symfony-ai-bridge": "*@dev"
+        "webmamba/ag-ui": "^0.1@dev",
+        "webmamba/ag-ui-bundle": "^0.1@dev",
+        "webmamba/ag-ui-symfony-ai-bridge": "^0.1@dev"
     },
     "config": {
         "allow-plugins": {
@@ -119,18 +119,5 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/stopwatch": "8.1.*",
         "symfony/web-profiler-bundle": "8.1.*"
-    },
-    "repositories": [{
-        "name": "ag-ui-bundle",
-        "type": "path",
-        "url": "../ag-ui-php/packages/bundle"
-    },{
-        "name": "ag-ui-symfony-ai-bridge",
-        "type": "path",
-        "url": "../ag-ui-php/packages/symfony-ai-bridge"
-    },{
-        "name": "ag-ui",
-        "type": "path",
-        "url": "../ag-ui-php/packages/core"
-    }]
+    }
 }

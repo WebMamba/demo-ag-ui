@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53b61d8aed44e1ae423383169f78ecd3",
+    "content-hash": "1f8321b0c50279900a043709ba02570e",
     "packages": [
         {
             "name": "composer/semver",
@@ -352,20 +352,20 @@
         },
         {
             "name": "doctrine/deprecations",
-            "version": "1.1.6",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "d4fe3e6fd9bb9e72557a19674f44d8ac7db4c6ca"
+                "reference": "d2e16653a734c8784c1851ad68b02f997b53ca82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/d4fe3e6fd9bb9e72557a19674f44d8ac7db4c6ca",
-                "reference": "d4fe3e6fd9bb9e72557a19674f44d8ac7db4c6ca",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/d2e16653a734c8784c1851ad68b02f997b53ca82",
+                "reference": "d2e16653a734c8784c1851ad68b02f997b53ca82",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "conflict": {
                 "phpunit/phpunit": "<=7.5 || >=14"
@@ -394,9 +394,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/1.1.6"
+                "source": "https://github.com/doctrine/deprecations/tree/1.2.0"
             },
-            "time": "2026-02-07T07:09:04+00:00"
+            "time": "2026-11-11T10:04:49+00:00"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -6259,16 +6259,16 @@
         },
         {
             "name": "symfony/polyfill-php85",
-            "version": "v1.43.0",
+            "version": "v1.44.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php85.git",
-                "reference": "86a42cbcc07adc331481a5ab310a4024bfc227f6"
+                "reference": "94c794cb5ba51784bc259f11e9f128593297d8dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/86a42cbcc07adc331481a5ab310a4024bfc227f6",
-                "reference": "86a42cbcc07adc331481a5ab310a4024bfc227f6",
+                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/94c794cb5ba51784bc259f11e9f128593297d8dc",
+                "reference": "94c794cb5ba51784bc259f11e9f128593297d8dc",
                 "shasum": ""
             },
             "require": {
@@ -6315,7 +6315,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.43.0"
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.44.0"
             },
             "funding": [
                 {
@@ -6335,7 +6335,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:46:47+00:00"
+            "time": "2026-10-30T15:20:09+00:00"
         },
         {
             "name": "symfony/polyfill-php86",
@@ -9359,10 +9359,16 @@
         {
             "name": "webmamba/ag-ui",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WebMamba/ag-ui.git",
+                "reference": "37576294750212091bdc8c0746a5ae930283c572"
+            },
             "dist": {
-                "type": "path",
-                "url": "../ag-ui-php/packages/core",
-                "reference": "cebf04b3d33f6b04cfd3a1647c7edbf6da5c644d"
+                "type": "zip",
+                "url": "https://api.github.com/repos/WebMamba/ag-ui/zipball/37576294750212091bdc8c0746a5ae930283c572",
+                "reference": "37576294750212091bdc8c0746a5ae930283c572",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.4",
@@ -9372,34 +9378,54 @@
                 "symfony/serializer": "^8.0",
                 "symfony/validator": "^8.0"
             },
+            "default-branch": true,
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "AgUi\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Matheo Daninos"
+                }
+            ],
             "description": "The AG-UI protocol for PHP: events, run agent input, SSE encoding and event stream verification.",
+            "homepage": "https://github.com/WebMamba/ag-ui-php",
             "keywords": [
+                "Agent",
                 "ag-ui",
-                "agent",
                 "ai",
                 "protocol",
                 "sse"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/WebMamba/ag-ui/tree/main"
+            },
+            "time": "2026-11-16T09:18:40+00:00"
         },
         {
             "name": "webmamba/ag-ui-bundle",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WebMamba/ag-ui-bundle.git",
+                "reference": "3d8026f29063288c08890c3734e72bab269d6f46"
+            },
             "dist": {
-                "type": "path",
-                "url": "../ag-ui-php/packages/bundle",
-                "reference": "e4dddaa86ee337ba7050df58f44729df6308559d"
+                "type": "zip",
+                "url": "https://api.github.com/repos/WebMamba/ag-ui-bundle/zipball/3d8026f29063288c08890c3734e72bab269d6f46",
+                "reference": "3d8026f29063288c08890c3734e72bab269d6f46",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.4",
@@ -9416,34 +9442,55 @@
                 "symfony/stimulus-bundle": "To use the ag-ui and ag-ui-activities Stimulus controllers with AssetMapper.",
                 "symfony/ux-twig-component": "To expose Twig components to the model with #[AsAgentComponent]."
             },
+            "default-branch": true,
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "AgUi\\Bundle\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "description": "Symfony bundle for AG-UI: every Symfony AI agent speaks the AG-UI protocol, run by the route that picks it. Twig components become generative UI.",
+            "authors": [
+                {
+                    "name": "Matheo Daninos"
+                }
+            ],
+            "description": "Provides a tight integration of AG-UI into the Symfony full-stack framework: every Symfony AI agent speaks AG-UI, Twig components become generative UI, and a Stimulus client renders it.",
+            "homepage": "https://github.com/WebMamba/ag-ui-php",
             "keywords": [
+                "Agent",
                 "ag-ui",
-                "agent",
                 "ai",
+                "bundle",
                 "symfony-ai",
                 "symfony-ux"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/WebMamba/ag-ui-bundle/tree/main"
+            },
+            "time": "2026-11-16T09:32:28+00:00"
         },
         {
             "name": "webmamba/ag-ui-symfony-ai-bridge",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WebMamba/ag-ui-symfony-ai-bridge.git",
+                "reference": "d668d8dc97e43d152aaa9d956178f7f3beb02310"
+            },
             "dist": {
-                "type": "path",
-                "url": "../ag-ui-php/packages/symfony-ai-bridge",
-                "reference": "e6bc97384c2d37fdd11c5dbcfc2d6b5bb28df86b"
+                "type": "zip",
+                "url": "https://api.github.com/repos/WebMamba/ag-ui-symfony-ai-bridge/zipball/d668d8dc97e43d152aaa9d956178f7f3beb02310",
+                "reference": "d668d8dc97e43d152aaa9d956178f7f3beb02310",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.4",
@@ -9457,39 +9504,54 @@
                 "symfony/uid": "^8.0",
                 "webmamba/ag-ui": "self.version"
             },
+            "default-branch": true,
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "AgUi\\Bridge\\SymfonyAi\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "description": "Runs any Symfony AI agent over AG-UI: text, reasoning, tool calls, frontend tools, interrupts, shared state and generative UI.",
+            "authors": [
+                {
+                    "name": "Matheo Daninos"
+                }
+            ],
+            "description": "Provides integration for AG-UI with Symfony AI: any Symfony AI agent runs over the AG-UI protocol.",
+            "homepage": "https://github.com/WebMamba/ag-ui-php",
             "keywords": [
+                "Agent",
+                "Bridge",
                 "ag-ui",
-                "agent",
                 "ai",
                 "sse",
                 "symfony-ai"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/WebMamba/ag-ui-symfony-ai-bridge/tree/main"
+            },
+            "time": "2026-11-16T09:32:25+00:00"
         },
         {
             "name": "webmozart/assert",
-            "version": "2.5.0",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "8a163706bbcac613733dba03f51e13b5eb1bb819"
+                "reference": "e578132c01bd0c64108386ab20d8217cd175ddec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/8a163706bbcac613733dba03f51e13b5eb1bb819",
-                "reference": "8a163706bbcac613733dba03f51e13b5eb1bb819",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/e578132c01bd0c64108386ab20d8217cd175ddec",
+                "reference": "e578132c01bd0c64108386ab20d8217cd175ddec",
                 "shasum": ""
             },
             "require": {
@@ -9540,9 +9602,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/2.5.0"
+                "source": "https://github.com/webmozarts/assert/tree/2.5.1"
             },
-            "time": "2026-10-05T23:14:19+00:00"
+            "time": "2026-11-15T13:41:13+00:00"
         }
     ],
     "packages-dev": [
